@@ -6,8 +6,6 @@
         <script type="text/javascript" src='js/tabletop1.3.4.js'></script>
         <script type="text/javascript" src='js/sheetsee.js'></script>
         <script type="text/javascript" src='js/leaflet.markercluster.js'></script>
-        <link rel="shortcut icon" href="https://raw.github.com/jlord/hack-spots/master/favico.png"/>
-
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link href='https://api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.css' rel='stylesheet' />
         <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic'>
@@ -20,11 +18,11 @@
 <body>
     <div class="header">
       <div class="container">
-        <img id="logo" src="RI-Logo2.svg" style="width:10%;">
+        <img id="logo" src="RI-Logo2.svg" style="width:0%;">
         <h1>Parks of Rhode Island</h1>
         <div>
             <ul class="nav">
-                <li><strong>A list of RI recreation areas</strong></li>
+                <li><strong>Find a public place to explore</strong></li>
                 <li><a href="#info">INFO</a> -</li>
                 <li><a href="http://jlord.github.com/sheetsee.js" target="_blank">POWERED BY SHEETSEE.JS</a> -</li>
                 <li><a href="https://github.com/Designist/Parks" target="_blank">GITHUB</a> -</li>
@@ -33,16 +31,22 @@
         </div>
       </div>
     </div>
+    <div>
+        <ul class="nav2">
+            <li><a class="active" href="index.html">Explore</a></li>
+            <li><a href="about.html">About</a></li>
+        </ul>
+    </div>
     <div id="wrapper">
-        <div class="container">
+        <div id="middle">
+            <div id="map"></div>
             <div id="rightSide">
                 <div id="latestSpot"></div>
                 <div id="selectedSpot"></div>
             </div>
-            <div id="map"></div>
         </div>
-        <div class="container">
-            <input id="tableFilter" type="text" placeholder="Filter by.."></input>
+        <div id="tableContainer">
+            <input id="tableFilter" type="text" placeholder="Filter by keyword"></input>
             <span class="clear button">Clear</span> <span class="resetMap button">Reset Map</span>
             <span class="noMatches">no matches</span>
             <p class="filterText">Filter by activity:</p>
@@ -62,6 +66,7 @@
             <div id="theNumberofSpots"></div>
             <p>This website is hooked up to <a href="https://docs.google.com/spreadsheets/d/1-b4W49NM4tf4_Ysnvv8oqbCAcapi-t6-mN2wFvbkbw4/edit?usp=sharing" target="_blank">this Google Spreadsheet</a>. To suggest another site, fill out the form here.
         </div>
+        <div class="footer"></div>
     </div><!-- end wrapper -->
 
 
@@ -77,12 +82,20 @@
 
     <script id="hackSpotsTable" type="text/html">
         <table>
-            <tr><th class="tHeader">Distance</th><th class="tHeader">Name</th><th class="tHeader">Type</th><th class="tHeader">Town</th><th class="">Elsewhere</th></tr>
-            {{#rows}}
-                <tr id="{{rowNumber}}" class="spotRow"><td id="demo">{{distance}}</td><td>{{name}}</td><td>{{type}}</td><td>{{town}}</td><td><a class="button" href="https://maps.google.com/maps/place/{{lat}},{{long}}" target="_blank">G Map</a></td></tr>
-            {{/rows}}
+        <tr><th id="distHeader" class="tHeader">Distance</th><th class="tHeader">Name</th><th class="tHeader">Type</th><th class="tHeader">Town</th><th class="">Elsewhere</th></tr>
+        {{#rows}}
+        <tr id="{{rowNumber}}" class="spotRow"><td id="distColumn">{{distance}} miles</td><td>{{name}}</td><td>{{type}}</td><td>{{town}}</td><td><a class="button" href="https://maps.google.com/maps/place/{{lat}},{{long}}" target="_blank">G Map</a></td></tr>
+        {{/rows}}
         </table>
+    </script>
 
+    <script id="hackSpotsTable2" type="text/html">
+        <table>
+        <tr><th class="tHeader">Name</th><th class="tHeader">Type</th><th class="tHeader">Town</th><th class="">Elsewhere</th></tr>
+        {{#rows}}
+        <tr id="{{rowNumber}}" class="spotRow"><td>{{name}}</td><td>{{type}}</td><td>{{town}}</td><td><a class="button" href="https://maps.google.com/maps/place/{{lat}},{{long}}" target="_blank">G Map</a></td></tr>
+        {{/rows}}
+        </table>
     </script>
 
     <script id="latestSpot" type="text/html">
@@ -90,16 +103,16 @@
             <h4 class="fauxButton">MOST RECENT SPOT</h4>
             <h2>{{name}}</h2>
             <p class="colorText">{{street}} Street<p>
-            <p class="colorText">{{town}}{{#state}}, {{state}}{{/state}}{{#postcode}}, {{postcode}}{{/postcode}}<br/> {{distance}} Miles Away</p>
+            <p class="colorText">{{town}}{{#state}}, {{state}}{{/state}}{{#postcode}}, {{postcode}}{{/postcode}}</p>
             <br>
             <p id="rdescription" class="descText">Description: {{shortdescription}}. {{description}}</p>
             <br>
-            <img id="rbiking" src ="icons\biking.svg" style="width:0%;">
-            <img id="rhiking" src ="icons\hiking.svg" style="width:0%;">
-            <img id="rpaddling" src ="icons\paddling.svg" style="width:0%;">
-            <img id="rrunning" src ="icons\running.svg" style="width:0%;">
-            <img id="rswimming" src ="icons\swimming.svg" style="width:0%;">
-            <img id="rwalking" src ="icons\walking.svg" style="width:0%;">
+            <img id="rbiking" src ="icons/biking.svg" style="width:0%;">
+            <img id="rhiking" src ="icons/hiking.svg" style="width:0%;">
+            <img id="rpaddling" src ="icons/paddling.svg" style="width:0%;">
+            <img id="rrunning" src ="icons/running.svg" style="width:0%;">
+            <img id="rswimming" src ="icons/swimming.svg" style="width:0%;">
+            <img id="rwalking" src ="icons/walking.svg" style="width:0%;">
             <ul>
                 <li><a href="https://maps.google.com/maps/place/{{lat}},{{long}}" target="_blank">View in Google Maps</a></li>
             </ul>
@@ -107,7 +120,7 @@
     </script>
 
     <script id="theNumberofSpots" type="text/html">
-        <p><strong><span class="red-text">{{numberOfSpots}}</span> hack spots strong!</p>
+        <p><strong><span class="red-text">{{numberOfSpots}}</span> recreation areas strong!</p>
     </script>
 
     <script id="selectedSpot" type="text/html">
@@ -115,16 +128,16 @@
             <h4 class="fauxButton">SELECTED SPOT</h4>
             <h2>{{name}}</h2>
             <p class="colorText">{{street}} Street<p>
-            <p class="colorText">{{town}}{{#state}}, {{state}}{{/state}}{{#postcode}}, {{postcode}}{{/postcode}}<br/> {{distance}} Miles Away</p>
+            <p class="colorText">{{town}}{{#state}}, {{state}}{{/state}}{{#postcode}}, {{postcode}}{{/postcode}}</p>
             <br>
             <p id="description" class="descText">Description: {{shortdescription}}. {{description}}</p>
             <br>
-            <img id="biking" src ="icons\biking.svg" style="width:0%;">
-            <img id="hiking" src ="icons\hiking.svg" style="width:0%;">
-            <img id="paddling" src ="icons\paddling.svg" style="width:0%;">
-            <img id="running" src ="icons\running.svg" style="width:0%;">
-            <img id="swimming" src ="icons\swimming.svg" style="width:0%;">
-            <img id="walking" src ="icons\walking.svg" style="width:0%;">
+            <img id="biking" src ="icons/biking.svg" style="width:0%;">
+            <img id="hiking" src ="icons/hiking.svg" style="width:0%;">
+            <img id="paddling" src ="icons/paddling.svg" style="width:0%;">
+            <img id="running" src ="icons/running.svg" style="width:0%;">
+            <img id="swimming" src ="icons/swimming.svg" style="width:0%;">
+            <img id="walking" src ="icons/walking.svg" style="width:0%;">
             <ul>
                 <li><a href="https://maps.google.com/maps/place/{{lat}},{{long}}" target="_blank">View in Google Maps</a></li>
             </ul>
@@ -145,6 +158,10 @@
         function showPosition(position) {
             plat = position.coords.latitude;
             plong = position.coords.longitude;
+            document.getElementById("hackSpotsTable2").id = "hackSpotsTable";
+            if (typeof tableOptions !== 'undefined') {
+                showInfo(tableOptions.data);
+            }
         }
         getLocation();
 
@@ -158,22 +175,29 @@
 
         // so long, so messy
         function showInfo(gData) {
-            for (var i=0; i < gData.length; i++) {
-                latDiff = 41.8380136 - gData[i].lat;
-                longDiff = -71.4358733 - gData[i].long;
-                var radlat1 = Math.PI * 41.8380136/180;
-                var radlat2 = Math.PI * gData[i].lat/180;
-                var radtheta = Math.PI * longDiff/180;
-                var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-                dist = Math.acos(dist);
-                dist = dist * 180/Math.PI;
-                dist = dist * 60 * 1.1515;
-                gData[i].distance = Math.round(dist*10)/10.0;
-            }
-            tableOptions = {
+            if (typeof plat === 'undefined') {
+                document.getElementById("hackSpotsTable").id = "hackSpotsTable2";
+                tableOptions = {
+                    "data": gData,
+                    "tableDiv": "#hackSpotsTable2",
+                    "filterDiv": "#tableFilter"
+                }
+            } else {
+                for (var i=0; i < gData.length; i++) {
+                    longDiff = plong - gData[i].long;
+                    var radlat1 = Math.PI * plat/180;
+                    var radlat2 = Math.PI * gData[i].lat/180;
+                    var radtheta = Math.PI * longDiff/180;
+                    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                    dist = Math.acos(dist);
+                    dist = dist * 180/Math.PI;
+                    dist = dist * 60 * 1.1515;
+                    gData[i].distance = Math.round(dist*10)/10.0;
+                }
+                tableOptions = {
                 "data": gData,
                 "tableDiv": "#hackSpotsTable",
-                "filterDiv": "#tableFilter"
+                "filterDiv": "#tableFilter"}
             }
             // make the table, and the search bar
             Sheetsee.makeTable(tableOptions)
@@ -198,25 +222,25 @@
             })
             // set it and pan to it
             $('#latestSpot').html(latestSpot)
-            map.setView([theLatestSpot.lat, theLatestSpot.long], 14)
+            map.setView([theLatestSpot.lat, theLatestSpot.long], 16)
 
             if (theLatestSpot.biking == "yes") {
-                document.getElementById("rbiking").style="width:10%;";
+                document.getElementById("rbiking").style.width="10%";
             }
             if (theLatestSpot.hiking == "yes") {
-                document.getElementById("rhiking").style="width:10%;";
+                document.getElementById("rhiking").style.width="10%";
             }
             if (theLatestSpot.paddling == "yes") {
-                document.getElementById("rpaddling").style="width:10%;";
+                document.getElementById("rpaddling").style.width="10%";
             }
             if (theLatestSpot.running == "yes") {
-                document.getElementById("rrunning").style="width:10%;";
+                document.getElementById("rrunning").style.width="10%";
             }
             if (theLatestSpot.swimming == "yes") {
-                document.getElementById("rswimming").style="width:10%;";
+                document.getElementById("rswimming").style.width="10%";
             }
             if (theLatestSpot.walking == "yes") {
-                document.getElementById("rwalking").style="width:10%;";
+                document.getElementById("rwalking").style.width="10%";
             }
 
             // when someone clicks on a row, highlight it and
@@ -233,24 +257,24 @@
                 $('#latestSpot').css("display", "none")
                 $('#selectedSpot').html(selectedSpot).css("display", "inline")
                 var selectedCoords = [dataElement[0].lat, dataElement[0].long]
-                map.setView(selectedCoords, 14)
+                map.setView(selectedCoords, 16)
                 if (dataElement[0].biking == "yes") {
-                    document.getElementById("biking").style="width:10%;";
+                    document.getElementById("biking").style.width="10%";
                 }
                 if (dataElement[0].hiking == "yes") {
-                    document.getElementById("hiking").style="width:10%;";
+                    document.getElementById("hiking").style.width="10%";
                 }
                 if (dataElement[0].paddling == "yes") {
-                    document.getElementById("paddling").style="width:10%;";
+                    document.getElementById("paddling").style.width="10%";
                 }
                 if (dataElement[0].running == "yes") {
-                    document.getElementById("running").style="width:10%;";
+                    document.getElementById("running").style.width="10%";
                 }
                 if (dataElement[0].swimming == "yes") {
-                    document.getElementById("swimming").style="width:10%;";
+                    document.getElementById("swimming").style.width="10%";
                 }
                 if (dataElement[0].walking == "yes") {
-                    document.getElementById("walking").style="width:10%;";
+                    document.getElementById("walking").style.width="10%";
                 }
             })
 
@@ -261,7 +285,7 @@
                 var latestCompleteSpot = []
                 var startWithLatestRow = data.reverse()
                 startWithLatestRow.forEach(function(row){
-                    if (!row.distance || !row.lat || !row.long || !row.name || !row.type || !row.town || !row.state ) return
+                    if (!row.lat || !row.long || !row.name || !row.type || !row.town || !row.state ) return
                     else latestCompleteSpot.push(row)
                 })
                 return latestCompleteSpot[0]
@@ -288,22 +312,22 @@
                 $('#selectedSpot').html(selectedSpot).css("display", "inline")
 
                 if (dataElement[0].biking == "yes") {
-                    document.getElementById("biking").src ="icons\\biking.svg";
+                    document.getElementById("biking").style.width="10%";
                 }
                 if (dataElement[0].hiking == "yes") {
-                    document.getElementById("hiking").src ="icons\\hiking.svg";
+                    document.getElementById("hiking").style.width="10%";
                 }
                 if (dataElement[0].paddling == "yes") {
-                    document.getElementById("paddling").src ="icons\\paddling.svg";
+                    document.getElementById("paddling").style.width="10%";
                 }
                 if (dataElement[0].running == "yes") {
-                    document.getElementById("running").src ="icons\\running.svg";
+                    document.getElementById("running").style.width="10%";
                 }
                 if (dataElement[0].swimming == "yes") {
-                    document.getElementById("swimming").src ="icons\\swimming.svg";
+                    document.getElementById("swimming").style.width="10%";
                 }
                 if (dataElement[0].walking == "yes") {
-                    document.getElementById("walking").src ="icons\\walking.svg";
+                    document.getElementById("walking").style.width="10%";
                 }
             })
 

@@ -16112,6 +16112,7 @@ module.exports.initiateTableFilter = function(opts) {
     $(this.id + ".noMatches").css("visibility", "hidden");
     $(this.id + opts.filterDiv).val("");
     searchTable(opts, "");
+    window.location.hash = "";
   });
   $(opts.filterDiv).keyup(function(e) {
     var text = $(e.target).val();
@@ -16178,8 +16179,9 @@ function sortThings(opts, sorter, sorted, tableDiv) {
     if (a[sorter]>b[sorter]) return 1
     return 0
   })
-  if (sorted === "descending") opts.data.reverse()
-  makeTable(opts)
+  if (sorted === "descending") opts.data.reverse();
+  searchTerm = document.getElementById("tableFilter").value;
+  searchTable(opts, searchTerm);
   var header
   $(tableDiv + " .tHeader").each(function(i, el){
     var contents = resolveDataTitle($(el).text())
@@ -16190,8 +16192,12 @@ function sortThings(opts, sorter, sorted, tableDiv) {
 
 module.exports.resolveDataTitle = resolveDataTitle
 function resolveDataTitle(string) {
-  var adjusted = string.toLowerCase().replace(/\s/g, '').replace(/\W/g, '')
-  return adjusted
+    if (isNaN(string.substring(0,3))) {
+        var adjusted = string.toLowerCase().replace(/\s/g, '').replace(/\W/g, '');
+    } else {
+        var adjusted = parseInt(string.substring(0,3));
+    }
+  return adjusted;
 }
 
 module.exports.initiateTableSorter = initiateTableSorter

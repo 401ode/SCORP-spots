@@ -7,4 +7,3 @@ This site uses a Google Spreadsheet to hold all the data and it is connected to 
 Based on ![screenshot](https://raw.github.com/jlord/hack-spots/gh-pages/img/hackspotsss.png)
 
 
-
