@@ -1419,7 +1419,6 @@ module.exports.getKeywordCount = function(data, keyword) {
     }
   })
   return group.length
-  if (group = []) return "0"
 }
 
 module.exports.getKeyword = function(data, keyword) {
@@ -1431,7 +1430,6 @@ module.exports.getKeyword = function(data, keyword) {
     }
   })
   return group
-  if (group = []) return "no matches"
 }
 
 module.exports.getColumnTotal = function(data, column) {
@@ -1786,7 +1784,6 @@ module.exports.addMarkerLayer = function(geoJSON, map, template, clusterMarkers)
   } else {
     layer.addTo(map)
   }
-
   return layer
 }
 
@@ -16137,7 +16134,7 @@ function searchTable(opts, searchTerm) {
             does_match = false;
           }}
       if (strUser != "View All Parks") {
-        if (object[dropdown] == "no") {
+        if (object[dropdown].slice(1,-1) == "no") {
           does_match = false;
         }
       }
@@ -16151,7 +16148,7 @@ function searchTable(opts, searchTerm) {
       var stringObject = JSON.stringify(object).toLowerCase();
       if (stringObject.match(searchTerm.toLowerCase())) {
         if (strUser != "View All Parks") {
-          if (object[dropdown] == "yes") {
+          if (object[dropdown].slice(1,-1) == "yes") {
             filteredList.push(object);
           }
         }

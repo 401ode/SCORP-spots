@@ -7,6 +7,7 @@
         <script type="text/javascript" src='js/sheetsee.js'></script>
         <script type="text/javascript" src='js/leaflet.markercluster.js'></script>
         <script type="text/javascript" src="js/jquery.jcarousellite.js"></script>
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link href='https://api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.css' rel='stylesheet' />
         <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic'>
@@ -15,7 +16,14 @@
         <link media="screen" rel="stylesheet" type="text/css" href="css/site.css">
         <link rel="stylesheet" href="css/MarkerCluster.css" />
         <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
-
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-80618922-1', 'auto');
+            ga('send', 'pageview');
+        </script>
     </head>
     <body>
         <div class="header">
@@ -103,7 +111,7 @@
                 <h3>Connect</h3>
                 <a href="https://twitter.com/RIGreatOutdoors"><img src="icons/social/twitter.png" style="width: 60px; margin: 10px;"></a>
                 <a href="https://www.facebook.com/Rhode-Island-Great-Outdoors-Pursuit-113749905313897/?fref=nf"><img src="icons/social/facebook.png" style="width: 60px; margin: 10px;"></a>
-                <a href="https://www.youtube.com/channel/UCyEqH_z2Xhnx_md2iLdnmew"><img src="icons/social/youtube.png" style="width: 60px; margin: 10px;"></a>
+                <a href="https://www.youtube.com/channel/UCyEqH_z2Xhnx_md2iLdnmew"><img id="youtube" src="icons/social/youtube.png" style="width: 60px; margin: 10px;"></a>
             </div>
         </div>
     </body>

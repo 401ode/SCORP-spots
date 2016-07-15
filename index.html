@@ -2,11 +2,13 @@
     <head>
         <title>Get Outdoors RI</title>
         <meta charset='utf-8'>
+        <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0" />
         <script type="text/javascript" src='js/jquery.js '></script>
         <script type="text/javascript" src='js/tabletop1.3.4.js'></script>
         <script type="text/javascript" src='js/sheetsee.js'></script>
         <script type="text/javascript" src='js/leaflet.markercluster.js'></script>
         <script type="text/javascript" src="js/jquery.jcarousellite.js"></script>
+        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link href='https://api.tiles.mapbox.com/mapbox.js/v1.4.0/mapbox.css' rel='stylesheet' />
         <link rel='stylesheet' type='text/css' href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic'>
@@ -16,8 +18,49 @@
         <link rel="stylesheet" href="css/MarkerCluster.css" />
         <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCM5HDD5Gj8xe2AVTh7wGiNXJxo-EcRbdw"> </script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-80618922-1', 'auto');
+            ga('send', 'pageview');
+        </script>
     </head>
-<body>
+<body style="overflow-x: hidden; width: 100%;">
+    <script>
+    function popup(biking, hiking, paddling, running, swimming, walking) {
+    if (biking == "yes") {
+        if (document.getElementById("sbiking") !== null) {
+            document.getElementById("sbiking").style.width="20px";
+        }
+    }
+    if (hiking == "yes") {
+      if (document.getElementById("shiking") !== null) {
+          document.getElementById("shiking").style.width="20px";
+      }
+    }
+    if (paddling == "yes") {
+      if (document.getElementById("spaddling") !== null) {
+          document.getElementById("spaddling").style.width="20px";
+      }
+    }
+    if (running == "yes") {
+      if (document.getElementById("srunning") !== null) {
+          document.getElementById("srunning").style.width="20px";
+      }
+    }
+    if (swimming == "yes") {
+      if (document.getElementById("sswimming") !== null) {
+          document.getElementById("sswimming").style.width="20px";
+      }
+    }
+    if (walking == "yes") {
+      if (document.getElementById("swalking") !== null) {
+          document.getElementById("swalking").style.width="20px";
+      }
+    }}
+    </script>
     <div class="header">
       <div class="container">
         <h1>Get Outdoors RI</h1>
@@ -40,8 +83,9 @@
     </div>
     <div id="wrapper">
         <div id="middle">
-            <div id="map">
-                <input id="locField" type="text" placeholder="Enter a location" style="position: relative; z-index: 10; float: right; margin: 12px;"></input>
+            <div id="map-wrapper" style="position: relative;">
+                <div id="map"></div>
+                <input id="locField" type="text" placeholder="Enter a location" style="position: absolute; z-index: 10; right: 0; margin: 12px;">
             </div>
             <div id="rightSide">
                 <div id="latestSpot"></div>
@@ -110,7 +154,7 @@
                 <h3>Connect</h3>
                 <a href="https://twitter.com/RIGreatOutdoors"><img src="icons/social/twitter.png" style="width: 60px; margin: 10px;"></a>
                 <a href="https://www.facebook.com/Rhode-Island-Great-Outdoors-Pursuit-113749905313897/?fref=nf"><img src="icons/social/facebook.png" style="width: 60px; margin: 10px;"></a>
-                <a href="https://www.youtube.com/channel/UCyEqH_z2Xhnx_md2iLdnmew"><img src="icons/social/youtube.png" style="width: 60px; margin: 10px;"></a>
+                <a href="https://www.youtube.com/channel/UCyEqH_z2Xhnx_md2iLdnmew"><img id="youtube" src="icons/social/youtube.png" style="width: 60px; margin: 10px;"></a>
             </div>
         </div>
     </div><!-- end wrapper -->
@@ -120,7 +164,7 @@
     function updateTable() {
         var text = document.getElementById("tableFilter").value;
         Sheetsee.searchTable(tableOptions, text);
-        $('.spotRow').first().click();
+        $('.spotRow').first().trigger("click");
     }
     </script>
 
@@ -154,12 +198,12 @@
             <br>
             <p id="rdescription" class="descText">Description: {{shortdescription}}. {{description}}</p>
             <br>
-            <img id="rbiking" src ="icons/biking.svg" style="width:0%;">
-            <img id="rhiking" src ="icons/hiking.svg" style="width:0%;">
-            <img id="rpaddling" src ="icons/paddling.svg" style="width:0%;">
-            <img id="rrunning" src ="icons/running.svg" style="width:0%;">
-            <img id="rswimming" src ="icons/swimming.svg" style="width:0%;">
-            <img id="rwalking" src ="icons/walking.svg" style="width:0%;">
+            <img id="rbiking" src ="icons/biking.svg" style="width:10%; display: none;">
+            <img id="rhiking" src ="icons/hiking.svg" style="width:10%; display: none;">
+            <img id="rpaddling" src ="icons/paddling.svg" style="width:10%; display: none;">
+            <img id="rrunning" src ="icons/running.svg" style="width:10%; display: none;">
+            <img id="rswimming" src ="icons/swimming.svg" style="width:10%; display: none;">
+            <img id="rwalking" src ="icons/walking.svg" style="width:10%; display: none;">
             <ul>
                 <li><a href="https://maps.google.com/maps/place/{{lat}},{{long}}" target="_blank">View in Google Maps</a></li>
                 <li><a href="https://www.google.com/maps/dir/Current+Location/{{lat}},{{long}}" target="_blank">Get Directions</a></li>
@@ -181,12 +225,12 @@
             <br>
             <p id="description" class="descText">Description: {{shortdescription}}. {{description}}</p>
             <br>
-            <img id="biking" src ="icons/biking.svg" style="width:0%;">
-            <img id="hiking" src ="icons/hiking.svg" style="width:0%;">
-            <img id="paddling" src ="icons/paddling.svg" style="width:0%;">
-            <img id="running" src ="icons/running.svg" style="width:0%;">
-            <img id="swimming" src ="icons/swimming.svg" style="width:0%;">
-            <img id="walking" src ="icons/walking.svg" style="width:0%;">
+            <img id="biking" src ="icons/biking.svg" style="width:10%; display: none;">
+            <img id="hiking" src ="icons/hiking.svg" style="width:10%; display: none;">
+            <img id="paddling" src ="icons/paddling.svg" style="width:10%; display: none;">
+            <img id="running" src ="icons/running.svg" style="width:10%; display: none;">
+            <img id="swimming" src ="icons/swimming.svg" style="width:10%; display: none;">
+            <img id="walking" src ="icons/walking.svg" style="width:10%; display: none;">
             <ul>
                 <li><a href="https://maps.google.com/maps/place/{{lat}},{{long}}" target="_blank">View in Google Maps</a></li>
                 <li><a href="https://www.google.com/maps/dir/Current+Location/{{lat}},{{long}}" target="_blank">Get Directions</a></li>
@@ -196,19 +240,19 @@
 
     <script type="text/javascript">
     // prompts user for location
-        var x = document.getElementById("demo");
         var dist_column = false;
         var map_loaded = false;
+        var sorted = false;
         function getLocation() {
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
+                navigator.geolocation.getCurrentPosition(showPosition, showError);
             }
             else {
-                x.innerHTML = "Geolocation is not supported by this browser.";
+                console.log("Geolocation is not supported by this browser.");
             }
         }
         function showPosition(position) {
-            if (typeof plat == 'undefined') {
+            if (document.getElementById("hackSpotsTable2") !== null) {
                 document.getElementById("hackSpotsTable2").id = "hackSpotsTable";
             }
             plat = position.coords.latitude;
@@ -216,8 +260,22 @@
             if (typeof tableOptions !== 'undefined') {
                 showInfo(tableOptions.data);
             }
-            eventFire(document.getElementById('distHeader'), 'click');
-            $('.spotRow').first().click();
+        }
+        function showError(error) {
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.log("User denied the request for Geolocation.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.log("Location information is unavailable.");
+                    break;
+                case error.TIMEOUT:
+                    console.log("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    console.log("An unknown error occurred.");
+                    break;
+            }
         }
         getLocation();
 
@@ -226,16 +284,6 @@
             var URL = "1-b4W49NM4tf4_Ysnvv8oqbCAcapi-t6-mN2wFvbkbw4"
                 Tabletop.init({ key: URL, callback: showInfo, simpleSheet: true });
         })
-
-        function eventFire(el, etype) {
-            if (el.fireEvent) {
-                el.fireEvent('on' + etype);
-            } else {
-                var evObj = document.createEvent('Events');
-                evObj.initEvent(etype, true, false);
-                el.dispatchEvent(evObj);
-            }
-        }
 
         $("#locField").keyup(function(event){
             if(event.keyCode == 13){
@@ -254,8 +302,7 @@
                     plat = results[0].geometry.location.lat();
                     plong = results[0].geometry.location.lng();
                     showInfo(tableOptions.data);
-                    eventFire(document.getElementById('distHeader'), 'click');
-                    $('.spotRow').first().click()
+                    $('.spotRow').first().trigger("click");
                     map.setView([plat, plong], 14)
                 }
             });
@@ -296,14 +343,22 @@
 
             // create geoJSON with coordinates and other
             // useful bits from the original data
-            var optionsJSON = ["name", "type", "town", "rowNumber"]
+            var optionsJSON = ["name", "type", "town", "rowNumber", "lat", "long", "biking", "hiking", "paddling", "running", "swimming", "walking"]
             var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)
 
             // create map, tilelayer (map background), markers and popups
             if (map_loaded == false) {
                 map = Sheetsee.loadMap("map")
                 Sheetsee.addTileLayer(map, 'jllord.n7aml2bc')
-                markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, "<h2>{{ name }}</h2>", true)
+                markerLayer = Sheetsee.addMarkerLayer(geoJSON, map,
+                    '<h2>{{ name }}' +
+                    '<br/> <div style="white-space: nowrap;"> <img id="sbiking" src="icons/biking.svg" style="width:0%;">' +
+                    '<img id="shiking" src="icons/hiking.svg" style="width:0%;">' +
+                    '<img id="spaddling" src="icons/paddling.svg" style="width:0%;">' +
+                    '<img id="srunning" src="icons/running.svg" style="width:0%;">' +
+                    '<img id="sswimming" src="icons/swimming.svg" style="width:0%;">' +
+                    '<img id="swalking" src="icons/walking.svg" style="width:0%;" onload="popup({{biking}},{{hiking}},{{paddling}},{{running}},{{swimming}},{{walking}})">' +
+                    '</div> <a href="https://www.google.com/maps/dir/Current+Location/{{lat}},{{long}}" target="_blank">Get Directions</a></h2>', true)
                 map_loaded = true
             }
 
@@ -318,23 +373,23 @@
             $('#latestSpot').html(latestSpot)
             map.setView([theLatestSpot.lat, theLatestSpot.long], 16)
 
-            if (theLatestSpot.biking == "yes") {
-                document.getElementById("rbiking").style.width="10%";
+            if ((theLatestSpot.biking).slice(1,-1) == "yes") {
+                document.getElementById("rbiking").style.display="inherit";
             }
-            if (theLatestSpot.hiking == "yes") {
-                document.getElementById("rhiking").style.width="10%";
+            if (theLatestSpot.hiking.slice(1,-1) == "yes") {
+                document.getElementById("rhiking").style.display="inherit";
             }
-            if (theLatestSpot.paddling == "yes") {
-                document.getElementById("rpaddling").style.width="10%";
+            if (theLatestSpot.paddling.slice(1,-1) == "yes") {
+                document.getElementById("rpaddling").style.display="inherit";
             }
-            if (theLatestSpot.running == "yes") {
-                document.getElementById("rrunning").style.width="10%";
+            if (theLatestSpot.running.slice(1,-1) == "yes") {
+                document.getElementById("rrunning").style.display="inherit";
             }
-            if (theLatestSpot.swimming == "yes") {
-                document.getElementById("rswimming").style.width="10%";
+            if (theLatestSpot.swimming.slice(1,-1) == "yes") {
+                document.getElementById("rswimming").style.display="inherit";
             }
-            if (theLatestSpot.walking == "yes") {
-                document.getElementById("rwalking").style.width="10%";
+            if (theLatestSpot.walking.slice(1,-1) == "yes") {
+                document.getElementById("rwalking").style.display="inherit";
             }
 
             // when someone clicks on a row, highlight it and
@@ -351,24 +406,24 @@
                 $('#latestSpot').css("display", "none")
                 $('#selectedSpot').html(selectedSpot).css("display", "inline")
                 var selectedCoords = [dataElement[0].lat, dataElement[0].long]
-                map.setView(selectedCoords, 16)
-                if (dataElement[0].biking == "yes") {
-                    document.getElementById("biking").style.width="10%";
+                map.setView(selectedCoords, 16);
+                if ((dataElement[0].biking).slice(1,-1) == "yes") {
+                    document.getElementById("biking").style.display="inherit";
                 }
-                if (dataElement[0].hiking == "yes") {
-                    document.getElementById("hiking").style.width="10%";
+                if (dataElement[0].hiking.slice(1,-1) == "yes") {
+                    document.getElementById("hiking").style.display="inherit";
                 }
-                if (dataElement[0].paddling == "yes") {
-                    document.getElementById("paddling").style.width="10%";
+                if (dataElement[0].paddling.slice(1,-1) == "yes") {
+                    document.getElementById("paddling").style.display="inherit";
                 }
-                if (dataElement[0].running == "yes") {
-                    document.getElementById("running").style.width="10%";
+                if (dataElement[0].running.slice(1,-1) == "yes") {
+                    document.getElementById("running").style.display="inherit";
                 }
-                if (dataElement[0].swimming == "yes") {
-                    document.getElementById("swimming").style.width="10%";
+                if (dataElement[0].swimming.slice(1,-1) == "yes") {
+                    document.getElementById("swimming").style.display="inherit";
                 }
-                if (dataElement[0].walking == "yes") {
-                    document.getElementById("walking").style.width="10%";
+                if (dataElement[0].walking.slice(1,-1) == "yes") {
+                    document.getElementById("walking").style.display="inherit";
                 }
             })
 
@@ -405,23 +460,23 @@
                 $('#latestSpot').css("display", "none")
                 $('#selectedSpot').html(selectedSpot).css("display", "inline")
 
-                if (dataElement[0].biking == "yes") {
-                    document.getElementById("biking").style.width="10%";
+                if ((dataElement[0].biking).slice(1,-1) == "yes") {
+                    document.getElementById("biking").style.display="inherit";
                 }
-                if (dataElement[0].hiking == "yes") {
-                    document.getElementById("hiking").style.width="10%";
+                if (dataElement[0].hiking.slice(1,-1) == "yes") {
+                    document.getElementById("hiking").style.display="inherit";
                 }
-                if (dataElement[0].paddling == "yes") {
-                    document.getElementById("paddling").style.width="10%";
+                if (dataElement[0].paddling.slice(1,-1) == "yes") {
+                    document.getElementById("paddling").style.display="inherit";
                 }
-                if (dataElement[0].running == "yes") {
-                    document.getElementById("running").style.width="10%";
+                if (dataElement[0].running.slice(1,-1) == "yes") {
+                    document.getElementById("running").style.display="inherit";
                 }
-                if (dataElement[0].swimming == "yes") {
-                    document.getElementById("swimming").style.width="10%";
+                if (dataElement[0].swimming.slice(1,-1) == "yes") {
+                    document.getElementById("swimming").style.display="inherit";
                 }
-                if (dataElement[0].walking == "yes") {
-                    document.getElementById("walking").style.width="10%";
+                if (dataElement[0].walking.slice(1,-1) == "yes") {
+                    document.getElementById("walking").style.display="inherit";
                 }
             })
 
@@ -439,14 +494,11 @@
             })
             $('#theNumberofSpots').html(theNumberofSpots)
 
-            if (window.location.hash) {
-                $('#tableFilter').val(window.location.hash.substring(1)).keyup()
-                $('.spotRow').first().click()
-            }
+            $("#distHeader").trigger("click");
+            $('.spotRow').first().trigger("click");
         }
         $(document).on('keyup', '#tableFilter', function() {
-            window.location.hash = $(this).val()
-            $('.spotRow').first().click()
+            $('.spotRow').first().trigger("click");
         })
     </script>
 </body>
